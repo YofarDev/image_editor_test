@@ -28,27 +28,29 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: [
-          TextButton(
-              onPressed: () => _toEditor(_edited!.path),
-              child: const Text('Edit')),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _edited = _original;
-              });
-            },
-            child: const Text("Reset"),
-          ),
-          if (_original == null) const CircularProgressIndicator(),
-          if (_edited != null) Image.file(_edited!),
-          if (_edited2 != null) Image.file(_edited2!),
-        ],
-      ),
-    ));
+    return SafeArea(
+      child: Scaffold(
+          body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextButton(
+                onPressed: () => _toEditor(_edited!.path),
+                child: const Text('Edit')),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _edited = _original;
+                });
+              },
+              child: const Text("Reset"),
+            ),
+            if (_original == null) const CircularProgressIndicator(),
+            if (_edited != null) Image.file(_edited!),
+            if (_edited2 != null) Image.file(_edited2!),
+          ],
+        ),
+      )),
+    );
   }
 
   void _networkToFile() async {

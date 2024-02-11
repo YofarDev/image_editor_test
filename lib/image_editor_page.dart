@@ -71,7 +71,7 @@ class ImageEditorPageState extends State<ImageEditorPage> {
         img.decodeImage(File(widget.imagePath).readAsBytesSync());
     if (image == null) return;
 
-    double brightness = convert();
+    double brightness = _convert();
 
     img.adjustColor(image, brightness: brightness);
 
@@ -101,65 +101,37 @@ class ImageEditorPageState extends State<ImageEditorPage> {
     return bytes;
   }
 
-  double convert() {
-    return _sliderBrightnessValue * 3;
+  double _convert() {
+    return _sliderBrightnessValue * 2;
   }
 }
 
 class ColorFilterGenerator {
   static List<double> brightnessAdjustMatrix({required double value}) {
-    if (value <= 0) {
-      value = value * 255;
-    } else {
-      value = value * 100;
-    }
-
-    if (value == 0) {
-      return [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-      ];
-    }
-
-    return List<double>.from(<double>[
-      1,
-      0,
-      0,
-      0,
-      value,
-      0,
-      1,
-      0,
-      0,
-      value,
-      0,
-      0,
-      1,
-      0,
-      value,
-      0,
-      0,
-      0,
-      1,
-      0
-    ]).map((i) => i.toDouble()).toList();
+    value = (value <= 0) ? value * 255 : value * 100;
+    return (value == 0)
+        ? [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+        : [
+            1,
+            0,
+            0,
+            0,
+            value,
+            0,
+            1,
+            0,
+            0,
+            value,
+            0,
+            0,
+            1,
+            0,
+            value,
+            0,
+            0,
+            0,
+            1,
+            0
+          ];
   }
 }
